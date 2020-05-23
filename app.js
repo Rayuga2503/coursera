@@ -16,9 +16,6 @@
     };
   }
 
-
-
-
   AlreadyBoughtController.$inject = ['ShoppingListCheckOffService'];
   function AlreadyBoughtController(ShoppingListCheckOffService){
     var already = this;
@@ -53,7 +50,6 @@
 
 
   }
-
 
 
 })();
