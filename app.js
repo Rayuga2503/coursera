@@ -1,38 +1,59 @@
-( function (){
-  'user strict';
+(function(){
+  'use strict';
 
-angular.module("LunchCheck",[])
-.controller("LunchCheckController",LunchCheckController)
+  angular.module("ShoppingListCheckOff",[])
+  .controller("ToBuyController",ToBuyController)
+  .controller("AlreadyBoughtController",AlreadyBoughtController)
+  .service("ShoppingListCheckOffService",ShoppingListCheckOffService);
 
-LunchCheckController.$inject=["$scope","$filter"];
+  ToBuyController.$inject = ['ShoppingListCheckOffService'];
+  function ToBuyController(ShoppingListCheckOffService){
+    var buy = this;
+    buy.items = ShoppingListCheckOffService.getItems();
 
-function LunchCheckController($scope,$filter) {
+    buy.removeItem = function(itemIndex){
+      ShoppingListCheckOffService.removeItem(itemIndex);
+    };
+  }
 
-  $scope.store="";
-  $scope.message = function()
-  {
-     var str = $scope.store.split(',');
 
-     if($scope.store=="")
-     {
-        // if(str[0]=="")
-        // {
-              $scope.temp = "Please enter data first";
 
-        //  }
-}
-         else if(str.length<=3)
-        {
-            $scope.temp = "Enjoy!";
-        }
 
-  
-    else {
-      $scope.temp =" Too much!";
+  AlreadyBoughtController.$inject = ['ShoppingListCheckOffService'];
+  function AlreadyBoughtController(ShoppingListCheckOffService){
+    var already = this;
+    already.broughtArray = ShoppingListCheckOffService.getbrought();
+  }
+
+
+  function ShoppingListCheckOffService() {
+    var service=this;
+    var items = [
+      {name: "cookies", quantity:"10"},
+      {name: "chocolates", quantity:"20"},
+      {name: "Toffee", quantity:"30"},
+      {name: "bread", quantity:"40"},
+      {name: "cupcakes", quantity:"50"}
+    ];
+
+    var broughtArray = [];
+
+    service.getItems = function(){
+      return items;
+    };
+
+    service.getbrought = function () {
+      return broughtArray;
     }
 
-};
+    service.removeItem = function(itemIndex){
+      broughtArray.push(items[itemIndex]);
+      items.splice(itemIndex,1);
+    };
 
-}
+
+  }
+
+
 
 })();
